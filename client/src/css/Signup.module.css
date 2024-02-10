@@ -1,0 +1,41 @@
+.Signup {
+  display: flex;
+  flex-direction: column;
+  width: auto;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+input {
+  height: 40px;
+  border: 5px solid rgba(13, 59, 65, 0.973);
+  width: 80%;
+  max-width: 300px;
+  margin-block: 10px;
+  padding-inline-start: 10px;
+}
+
+input:focus {
+  outline: none;
+}
+
+.signupButton {
+  height: 50px;
+  width: 40%;
+  background-color: rgb(23, 52, 85);
+  border-radius: 20px;
+  border: none;
+  color: wheat;
+  margin-block: 10px;
+}
+
+.signupButton:hover {
+  cursor: grab;
+}
+
+.error {
+  font-size: 0.8rem;
+  color: rgb(192, 14, 14);
+  font-weight: 800;
+}

@@ -1,0 +1,8 @@
+.App {
+  margin-inline: auto;
+  height: 90vh;
+  border: 1px solid grey;
+  width: 90vw;
+  max-width: 400px;
+  margin-block-start: 30px;
+}
