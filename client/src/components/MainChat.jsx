@@ -12,7 +12,7 @@ export default function MainChat({ handleUsersOnline }) {
 
   //===========USEEFFECT==============
   useEffect(() => {
-    const socket = io(`${settings.mode === "development" ?"http://127.0.0.1:3001":""}`);
+    const socket = io(`${settings.mode === "development" ?"http://127.0.0.1:3001":"https://chat-app-socket-o58d.onrender.com"}`);
 
     const online = setInterval(() => {
       socket.emit("userDetails", context.username);
