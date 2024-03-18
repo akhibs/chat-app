@@ -14,7 +14,7 @@ export default function Login({
   useEffect(() => {
     const loginButton = document.querySelector("#loginButton");
     const socket = io(
-      `${settings.mode === "development" ? "http://127.0.0.1:3001" : ""}`
+      `${settings.mode === "development" ? "http://127.0.0.1:3001" : "https://chat-app-socket-o58d.onrender.com"}`
     );
 
     window.addEventListener("keydown", (e) => {
