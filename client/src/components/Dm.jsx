@@ -19,7 +19,7 @@ export default function Dm() {
     if (message.length > 0) {
       setRecievedMessage((e) => [...e, `${message}S`]);
       const socket = io(
-        `${settings.mode === "development" ? "http://127.0.0.1:3001" : ""}`
+        `${settings.mode === "development" ? "http://127.0.0.1:3001" : "https://chat-app-socket-o58d.onrender.com"}`
       );
       socket.emit("newMessage", {
         from: context.username,
@@ -43,7 +43,7 @@ export default function Dm() {
 
   useEffect(() => {
     const socket = io(
-      `${settings.mode === "development" ? "http://127.0.0.1:3001" : ""}`
+      `${settings.mode === "development" ? "http://127.0.0.1:3001" : "https://chat-app-socket-o58d.onrender.com"}`
     );
     socket.on(`${context.username}`, (arg) => {
       setRecievedMessage((e) => [...e, `${arg.message}R`]);
