@@ -107,7 +107,7 @@ export default function App() {
           `${
             settings.mode === "development"
               ? "http://127.0.0.1:3000/signup"
-              : ""
+              : "https://chat-app-api-g9f9.onrender.com/signup"
           }`,
           {
             method: "POST",
@@ -148,7 +148,7 @@ export default function App() {
     try {
       const request = await fetch(
         `${
-          settings.mode === "development" ? "http://127.0.0.1:3000/login" : ""
+          settings.mode === "development" ? "http://127.0.0.1:3000/login" : "https://chat-app-api-g9f9.onrender.com/login"
         }`,
         {
           method: "POST",
