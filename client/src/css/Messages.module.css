@@ -1,0 +1,23 @@
+.MessageS {
+  font-size: 0.9rem;
+  background-color: rgba(170, 189, 184, 0.726);
+  color: rgb(64, 65, 65);
+  padding: 10px;
+  border-radius: 10px;
+  width: fit-content;
+  margin-block: 2px;
+  margin-inline-end: 10%;
+  align-self: flex-end;
+}
+
+.MessageR {
+  font-size: 0.9rem;
+  background-color: rgba(170, 189, 184, 0.726);
+  color: rgb(100, 167, 141);
+  padding: 10px;
+  border-radius: 10px;
+  width: fit-content;
+  margin-block: 2px;
+  margin-inline-start: 10%;
+  align-self: flex-start;
+}

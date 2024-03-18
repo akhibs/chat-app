@@ -5,12 +5,14 @@ import { io } from "socket.io-client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import UsersOnline from "./UsersOnline";
 import Dm from "./Dm";
+import { settings } from "../settings";
 
 export default function MainChat({ handleUsersOnline }) {
   const context = useContext(AppContext);
 
+  //===========USEEFFECT==============
   useEffect(() => {
-    const socket = io("http://127.0.0.1:3001");
+    const socket = io(`${settings.mode === "development" ?"http://127.0.0.1:3001":""}`);
 
     const online = setInterval(() => {
       socket.emit("userDetails", context.username);
@@ -30,7 +32,11 @@ export default function MainChat({ handleUsersOnline }) {
       clearInterval(online);
     };
   }, [context.username, handleUsersOnline]);
+  //=========================================
 
+  //==============HANDLERS=============
+
+  //==========router=========
   const router = createBrowserRouter([
     {
       path: "/",
@@ -44,10 +50,6 @@ export default function MainChat({ handleUsersOnline }) {
 
   return (
     <div className={styles.MainChat} id="mainChat">
-      <p className={styles.status}>
-        welcome {context.username}
-        {context.status}
-      </p>
       <RouterProvider router={router} />
     </div>
   );

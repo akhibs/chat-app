@@ -4,6 +4,7 @@ import MainChat from "./components/MainChat";
 import AppContext from "./AppContext";
 import { useReducer, useCallback } from "react";
 import switcher from "./utility/switcher";
+import { settings } from "./settings";
 
 const initialState = {
   isLoggedIn: false,
@@ -22,6 +23,8 @@ function reducer(state, action) {
       return { ...state, mainPageSwitch: action.payload };
     case "showSignupPage":
       return { ...state, mainPageSwitch: action.payload };
+    case "showHomePage":
+      return { ...state, mainPageSwitch: action.payload };
     case "usernameChange":
       return { ...state, username: action.payload };
     case "passwordChange":
@@ -36,6 +39,8 @@ function reducer(state, action) {
       return { ...state, status: action.payload };
     case "usersOnline":
       return { ...state, usersOnline: action.payload };
+    case "clearPageSwitch":
+      return { ...state, mainPageSwitch: action.payload };
     default:
       throw new Error();
   }
@@ -57,6 +62,10 @@ export default function App() {
 
   function handleSignupPage() {
     dispatch({ type: "showSignupPage", payload: "signup page" });
+  }
+
+  function handleHomePage() {
+    dispatch({ type: "showHomePage", payload: "home page" });
   }
 
   function handleLoginChange(e) {
@@ -83,7 +92,7 @@ export default function App() {
       });
       setTimeout(() => {
         dispatch({ type: "signupError", payload: "" });
-      }, 2000);
+      }, 1000);
     } else if (state.password.length < 5) {
       dispatch({
         type: "signupError",
@@ -91,25 +100,32 @@ export default function App() {
       });
       setTimeout(() => {
         dispatch({ type: "signupError", payload: "" });
-      }, 2000);
+      }, 1000);
     } else {
       try {
-        const request = await fetch("http://127.0.0.1:3000/signup", {
-          method: "POST",
-          mode: "cors",
-          cache: "default",
-          credentials: "same-origin",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-          redirect: "follow",
-          referrerPolicy: "no-referrer",
-          body: JSON.stringify({
-            username: state.username,
-            password: state.password,
-          }),
-        });
+        const request = await fetch(
+          `${
+            settings.mode === "development"
+              ? "http://127.0.0.1:3000/signup"
+              : ""
+          }`,
+          {
+            method: "POST",
+            mode: "cors",
+            cache: "default",
+            credentials: "same-origin",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+            },
+            redirect: "follow",
+            referrerPolicy: "no-referrer",
+            body: JSON.stringify({
+              username: state.username,
+              password: state.password,
+            }),
+          }
+        );
 
         const res = await request.json();
         if (res.status === "okay") {
@@ -117,6 +133,7 @@ export default function App() {
             type: "isLoggedIn",
             payload: true,
           });
+          dispatch({ type: "clearPageSwitch", payload: "" });
         }
       } catch (e) {
         dispatch({ type: "signupError", payload: "Error while signing up" });
@@ -129,21 +146,26 @@ export default function App() {
 
   async function handleLogin() {
     try {
-      const request = await fetch("http://127.0.0.1:3000/login", {
-        method: "POST",
-        mode: "cors",
-        cache: "default",
-        credentials: "same-origin",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        redirect: "follow",
-        referrerPolicy: "no-referrer",
-        body: JSON.stringify({
-          username: state.username,
-          password: state.password,
-        }),
-      });
+      const request = await fetch(
+        `${
+          settings.mode === "development" ? "http://127.0.0.1:3000/login" : ""
+        }`,
+        {
+          method: "POST",
+          mode: "cors",
+          cache: "default",
+          credentials: "same-origin",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          redirect: "follow",
+          referrerPolicy: "no-referrer",
+          body: JSON.stringify({
+            username: state.username,
+            password: state.password,
+          }),
+        }
+      );
 
       const res = await request.json();
       if (res.status === "incorrectUser") {
@@ -161,6 +183,7 @@ export default function App() {
           type: "isLoggedIn",
           payload: true,
         });
+        dispatch({ type: "clearPageSwitch", payload: "" });
       }
     } catch (e) {
       dispatch({ type: "loginError", payload: "Error while logging in" });
@@ -187,6 +210,14 @@ export default function App() {
     <AppContext.Provider value={state}>
       <div className={styles.App}>
         <Header />
+        {state.mainPageSwitch === "login page" ||
+        state.mainPageSwitch === "signup page" ? (
+          <p className={styles.backButton} onClick={handleHomePage}>
+            ◀ home
+          </p>
+        ) : (
+          <p className={styles.backNothing}></p>
+        )}
         {state.isLoggedIn ? (
           <MainChat handleUsersOnline={handleUsersOnline} />
         ) : (

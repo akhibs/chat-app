@@ -1,10 +1,17 @@
+import { useNavigate } from "react-router-dom";
 import styles from "./../css/UserOnline.module.css";
 
-export default function UserOnline({ username, handleUserOnlineClick }) {
+export default function UserOnline({ username}) {
+const navigate = useNavigate()
+
+
+   function handleUserDm() {
+     navigate(`/${username}`);
+   }
   return (
     <div
       className={styles.UserOnline}
-      onClick={handleUserOnlineClick}
+      onClick={handleUserDm}
       id={username}
       name={username}
     >

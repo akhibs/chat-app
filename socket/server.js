@@ -16,25 +16,26 @@ const io = new Server(appServer, {
 const usersOnline = [];
 let userUsername;
 
-io.on("connection", async (socket) => {
-  await socket.on("userDetails", async (username) => {
+io.on("connection", (socket) => {
+  socket.on("userDetails", (username) => {
     userUsername = username;
     if (!usersOnline.includes(username) && username.length > 0) {
       usersOnline.push(username);
-
-      console.log(usersOnline);
     }
-    await socket.emit("usersOnline", usersOnline);
+    socket.emit("usersOnline", usersOnline);
   });
 
-  await socket.on("userOffline", async (username) => {
+  socket.on("userOffline", (username) => {
     if (usersOnline.includes(username)) {
       usersOnline.splice(usersOnline.indexOf(username), 1);
     }
-    console.log(usersOnline);
   });
 
-  await socket.on("disconnect", () => {
+  socket.on("newMessage", (message) => {
+    socket.broadcast.emit(`${message.to}`, message);
+  });
+
+  socket.on("disconnect", () => {
     console.log("disconnected");
   });
 });
@@ -43,7 +44,7 @@ io.on("connection", async (socket) => {
 const port = process.env.PORT || 3002;
 appServer.listen(port, () => {
   console.log(`socket running on port ${port}`);
-  console.log("/////////////////////\n/////////////////////");
+  console.log("//////////////////////\n/////////////////////");
 });
 
 module.exports = io;

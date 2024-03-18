@@ -1,4 +1,74 @@
 .Dm {
-  grid-column: 1/2;
-  grid-row: 2/3;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-between;
+}
+
+.userStatus {
+  display: flex;
+  height: 8%;
+  background-color: rgb(19, 62, 65);
+  color: whitesmoke;
+}
+
+.backButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 10%;
+  height: 100%;
+  background-color: rgb(55, 121, 83);
+}
+
+.backButton:hover {
+  background-color: rgb(219, 219, 219);
+  color: rgb(19, 62, 65);
+  transition: 200ms;
+}
+.user {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 90%;
+  height: 100%;
+}
+
+.messagesBox {
+  height: 75%;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.senderBox {
+  height: 10%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  padding-inline: 5px;
+  width: auto;
+}
+
+.messageInput {
+  height: 80%;
+  width: 100%;
+  border: 1px rgba(117, 116, 116, 0.596) solid;
+  border-radius: 30px;
+}
+
+.sendButton {
+  height: 80%;
+  color: rgb(55, 121, 83);
+  width: 10%;
+  font-size: 1.8rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  background-color: white;
+}
+
+.sendButton:active {
+  transform: scale(0.8);
 }

@@ -6,3 +6,25 @@
   max-width: 400px;
   margin-block-start: 30px;
 }
+
+.backButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  height: 50px;
+  color: rgb(55, 121, 83);
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+.backButton:hover {
+  background-color: rgb(219, 219, 219);
+  color: rgb(19, 62, 65);
+  transition: 200ms;
+  cursor: default;
+}
+
+.backNothing {
+  margin: 0;
+}
