@@ -14,13 +14,6 @@ export default function Dm() {
   const context = useContext(AppContext);
   const scrollableDivRef = useRef(null);
 
-  const scrollToBottom = () => {
-    if (scrollableDivRef.current) {
-      scrollableDivRef.current.scrollTop =
-        scrollableDivRef.current.scrollHeight;
-    }
-  };
-
   const handleSendButton = useCallback(() => {
     //function to send message
 
@@ -65,12 +58,22 @@ export default function Dm() {
       setRecievedMessage((e) => [...e, `${arg.message}R`]);
     });
 
-    scrollToBottom();
-
     return () => {
       socket.disconnect();
     };
   }, [context.username]);
+
+  const scrollToBottom = () => {
+    if (scrollableDivRef.current) {
+      scrollableDivRef.current.scrollTop =
+        scrollableDivRef.current.scrollHeight;
+    }
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+    console.log("done");
+  }, [recievedMessage]);
 
   return (
     <div className={styles.Dm}>
