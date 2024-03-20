@@ -2,7 +2,7 @@ import styles from "./App.module.css";
 import Header from "./components/Header";
 import MainChat from "./components/MainChat";
 import AppContext from "./AppContext";
-import { useReducer, useCallback } from "react";
+import { useReducer, useCallback, useEffect } from "react";
 import switcher from "./utility/switcher";
 import { settings } from "./settings";
 
@@ -148,7 +148,9 @@ export default function App() {
     try {
       const request = await fetch(
         `${
-          settings.mode === "development" ? "http://127.0.0.1:3000/login" : "https://chat-app-api-g9f9.onrender.com/login"
+          settings.mode === "development"
+            ? "http://127.0.0.1:3000/login"
+            : "https://chat-app-api-g9f9.onrender.com/login"
         }`,
         {
           method: "POST",
@@ -205,6 +207,16 @@ export default function App() {
     handleSignup
   );
   //==========================================
+
+  useEffect(() => {
+    fetch(
+      `${
+        settings.mode === "development"
+          ? "http://127.0.0.1:3000/active"
+          : "https://chat-app-api-g9f9.onrender.com/active"
+      }`
+    );
+  });
 
   return (
     <AppContext.Provider value={state}>

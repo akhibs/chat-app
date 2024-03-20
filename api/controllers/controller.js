@@ -1,5 +1,10 @@
 const Model = require("./../models/model");
 
+exports.active = async (req, res) => {
+  console.log("Server Active");
+  res.status(200);
+};
+
 exports.signup = async (req, res) => {
   const { username, password } = req.body;
   const sameUser = await Model.find({ username: username });

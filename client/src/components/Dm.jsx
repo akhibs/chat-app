@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import styles from "./../css/Dm.module.css";
 import { useParams, useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
@@ -12,6 +12,14 @@ export default function Dm() {
   const { user } = useParams();
   const navigate = useNavigate();
   const context = useContext(AppContext);
+  const scrollableDivRef = useRef(null);
+
+  const scrollToBottom = () => {
+    if (scrollableDivRef.current) {
+      scrollableDivRef.current.scrollTop =
+        scrollableDivRef.current.scrollHeight;
+    }
+  };
 
   const handleSendButton = useCallback(() => {
     //function to send message
@@ -19,7 +27,11 @@ export default function Dm() {
     if (message.length > 0) {
       setRecievedMessage((e) => [...e, `${message}S`]);
       const socket = io(
-        `${settings.mode === "development" ? "http://127.0.0.1:3001" : "https://chat-app-socket-o58d.onrender.com"}`
+        `${
+          settings.mode === "development"
+            ? "http://127.0.0.1:3001"
+            : "https://chat-app-socket-o58d.onrender.com"
+        }`
       );
       socket.emit("newMessage", {
         from: context.username,
@@ -43,11 +55,17 @@ export default function Dm() {
 
   useEffect(() => {
     const socket = io(
-      `${settings.mode === "development" ? "http://127.0.0.1:3001" : "https://chat-app-socket-o58d.onrender.com"}`
+      `${
+        settings.mode === "development"
+          ? "http://127.0.0.1:3001"
+          : "https://chat-app-socket-o58d.onrender.com"
+      }`
     );
     socket.on(`${context.username}`, (arg) => {
       setRecievedMessage((e) => [...e, `${arg.message}R`]);
     });
+
+    scrollToBottom();
 
     return () => {
       socket.disconnect();
@@ -63,7 +81,7 @@ export default function Dm() {
         <p className={styles.user}>🟢 {user}</p>
       </div>
 
-      <div className={styles.messagesBox}>
+      <div ref={scrollableDivRef} className={styles.messagesBox}>
         {recievedMessage.map((el, index) => {
           return <Messages key={index} mess={el} />;
         })}

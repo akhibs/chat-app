@@ -1,3 +1,3 @@
 export const settings = {
-  mode: "production",
+  mode: "development",
 };
